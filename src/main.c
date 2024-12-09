@@ -35,7 +35,7 @@ main_window_cb(HWND window,
             LONG height = paint.rcPaint.bottom - paint.rcPaint.top;
             PatBlt(device_ctx, x, y, width, height, WHITENESS);
             EndPaint(window, &paint);
-        }
+        } break;
         default:
         {
             result = DefWindowProc(window, msg, w_param, l_param);
