@@ -30,6 +30,7 @@ main_window_cb(HWND window,
         case WM_CLOSE:
         {
             printf("WM_CLOSE\n");
+            exit(0);
         } break;
         case WM_ACTIVATEAPP:
         {
