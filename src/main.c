@@ -1,4 +1,14 @@
 #include <windows.h>
+#include <stdio.h>
+
+void attach_debug_console() {
+    AllocConsole();
+
+    FILE *stream;
+    freopen_s(&stream, "CONOUT$", "w", stdout);
+    freopen_s(&stream, "CONOUT$", "w", stderr);
+    freopen_s(&stream, "CONIN$", "r", stdin);
+}
 
 LRESULT CALLBACK
 main_window_cb(HWND window,
@@ -11,19 +21,19 @@ main_window_cb(HWND window,
     switch (msg) {
         case WM_SIZE:
         {
-            OutputDebugStringA("WM_SIZE\n");
+            printf("WM_SIZE\n");
         } break;
         case WM_DESTROY:
         {
-            OutputDebugStringA("WM_DESTROY\n");
+            printf("WM_DESTROY\n");
         } break;
         case WM_CLOSE:
         {
-            OutputDebugStringA("WM_CLOSE\n");
+            printf("WM_CLOSE\n");
         } break;
         case WM_ACTIVATEAPP:
         {
-            OutputDebugStringA("WM_ACTIVATEAPP\n");
+            printf("WM_ACTIVATEAPP\n");
         } break;
         case WM_PAINT:
         {
@@ -51,6 +61,8 @@ WinMain(HINSTANCE instance,
         LPSTR cmd_line,
         int show_code)
 {
+    attach_debug_console();
+
     WNDCLASS window_class = {0};
     window_class.style = CS_OWNDC|CS_HREDRAW|CS_VREDRAW;
     window_class.lpfnWndProc = main_window_cb;
