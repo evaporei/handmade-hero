@@ -1,5 +1,13 @@
 #include <windows.h>
 #include <stdio.h>
+#include <stdbool.h>
+
+#define global static
+#define local_persist static
+#define internal static
+
+// TODO: global for now.
+global bool running;
 
 void attach_debug_console() {
     AllocConsole();
@@ -25,12 +33,13 @@ main_window_cb(HWND window,
         } break;
         case WM_DESTROY:
         {
-            printf("WM_DESTROY\n");
+            // TODO: recreate window?
+            running = false;
         } break;
         case WM_CLOSE:
         {
-            printf("WM_CLOSE\n");
-            PostQuitMessage(0);
+            // TODO: message to user?
+            running = false;
         } break;
         case WM_ACTIVATEAPP:
         {
@@ -84,7 +93,8 @@ WinMain(HINSTANCE instance,
                                             instance,
                                             0);
         if (window_handle) {
-            while (1) {
+            running = true;
+            while (running) {
                 MSG msg;
                 BOOL msg_result = GetMessage(&msg, 0, 0, 0);
                 if (msg_result <= 0)
