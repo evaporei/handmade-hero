@@ -79,34 +79,34 @@ WinMain(HINSTANCE instance,
     window_class.hInstance = instance;
     window_class.lpszClassName = "HandmadeHeroWindowClass";
 
-    if (RegisterClass(&window_class)) {
-        HWND window_handle = CreateWindowEx(0,
-                                            window_class.lpszClassName,
-                                            "handmade-hero",
-                                            WS_OVERLAPPEDWINDOW|WS_VISIBLE,
-                                            CW_USEDEFAULT,
-                                            CW_USEDEFAULT,
-                                            CW_USEDEFAULT,
-                                            CW_USEDEFAULT,
-                                            0,
-                                            0,
-                                            instance,
-                                            0);
-        if (window_handle) {
-            running = true;
-            while (running) {
-                MSG msg;
-                BOOL msg_result = GetMessage(&msg, 0, 0, 0);
-                if (msg_result <= 0)
-                    break;
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
-        } else {
-            // TODO: logging
-        }
-    } else {
-	    // TODO: logging
+    if (!RegisterClass(&window_class))
+        // TODO: logging
+        return 0;
+
+    HWND window_handle = CreateWindowEx(0,
+                                        window_class.lpszClassName,
+                                        "handmade-hero",
+                                        WS_OVERLAPPEDWINDOW|WS_VISIBLE,
+                                        CW_USEDEFAULT,
+                                        CW_USEDEFAULT,
+                                        CW_USEDEFAULT,
+                                        CW_USEDEFAULT,
+                                        0,
+                                        0,
+                                        instance,
+                                        0);
+    if (!window_handle)
+        // TODO: logging
+        return 0;
+
+    running = true;
+    while (running) {
+        MSG msg;
+        BOOL msg_result = GetMessage(&msg, 0, 0, 0);
+        if (msg_result <= 0)
+            break;
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
 
     return 0;
